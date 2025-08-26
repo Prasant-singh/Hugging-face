@@ -13,12 +13,18 @@ print("Inputs:", inputs)
 
 
 # Importing the model And using Auto model class so that it can automatically finds the model that best fit with situation
+from transformers import AutoModel
+model=AutoModel.from_pretrained(checkpoint)
+# Passing the inputs to the model FORWARD PASS
+outputs=model(**inputs)
+print("Size of the image pass to the HEAD layer:", outputs.last_hidden_state.shape)
+
 from transformers import AutoModelForSequenceClassification
 model=AutoModelForSequenceClassification.from_pretrained(checkpoint)
 
 # Passing the inputs to the model FORWARD PASS
 outputs=model(**inputs)
-print("Size of the image pass to the HEAD layer:", outputs.last_hidden_state.shape)
+
 # Cheching shape of logits. In short cheching the shape of logits that HEAD passes to the output layer
 print(outputs.logits.shape)
 import torch
@@ -26,3 +32,4 @@ prediction=torch.nn.functional.softmax(outputs.logits,dim=-1)
 print("Prediction:", prediction)
 
 print("Label Mapping:", model.config.id2label)
+model.save_pretrained("model")
