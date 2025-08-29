@@ -1,0 +1,6 @@
+ipykernel
+transformers
+datasets
+torch
+accelerate>=0.26.0
+transformers[torch]
